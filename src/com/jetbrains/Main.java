@@ -19,11 +19,6 @@ public class Main {
     public static void main(String[] args) {
 
         Scanner scan1 = new Scanner(System.in);
-        double sum = 0.0;
-        double battingAverage = 0.0;
-        double sluggingPercentage = 0.0;
-        double sluggingCount = 0.0;
-        double atBatCount = 0.0;
 
         System.out.println("Welcome, fellow human! Please enter a number of players you'd like to evaluate: ");
         int numberOfPlayers = scan1.nextInt();
@@ -40,6 +35,7 @@ public class Main {
                 playersArray[i][j] = scan1.nextInt();
 
                 //validation for bases
+                //TODO put validation (find pre-made on Slack) into its own method
                 if (playersArray[i][j] > 4 || playersArray[i][j] < 0) {
                     System.out.println("Oops! That wasn't a correct number of bases. ");
                     System.out.printf("Please enter how many bases earned for player # " + (i + 1) + ": ", i + 1, j + 1);
@@ -48,21 +44,19 @@ public class Main {
             }
         }
 
-        //TODO make this into its own method
-        //this calculates batting average
-        for (int i = 0; i < playersArray.length; i++) {
-            for (int j = 0; j < playersArray[i].length; j++) {
-                sum = sum + playersArray[i][j];
-            }
-            battingAverage = sum / playersArray[i].length;
-            sum = 0.0;
-            System.out.printf("Batting average for player " + (i + 1) + " is: %.3f", battingAverage);
-            System.out.println();
+        calculateBattingAverage(playersArray);
 
-        }
+        calculateSluggingPercentage(playersArray);
 
-        //this calculates slugging percent method
-        //TODO make this into its own method
+        System.out.println();
+        System.out.println("The whole array is: " + Arrays.deepToString(playersArray));
+
+    }
+
+    private static void calculateSluggingPercentage(int[][] playersArray) {
+        double sluggingPercentage;
+        double atBatCount = 0.0;
+        double sluggingCount = 0.0;
         for (int i = 0; i < playersArray.length; i++) {
             for (int j = 0; j < playersArray[i].length; j++) {
                 atBatCount = atBatCount + 1.0;
@@ -77,9 +71,21 @@ public class Main {
             System.out.println("%");
 
         }
-        System.out.println();
-        System.out.println("The whole array is: " + Arrays.deepToString(playersArray));
+    }
 
+    private static void calculateBattingAverage(int[][] playersArray) {
+        double battingAverage;
+        double sum = 0.0;
+        for (int i = 0; i < playersArray.length; i++) {
+            for (int j = 0; j < playersArray[i].length; j++) {
+                sum = sum + playersArray[i][j];
+            }
+            battingAverage = sum / playersArray[i].length;
+            sum = 0.0;
+            System.out.printf("Batting average for player " + (i + 1) + " is: %.3f", battingAverage);
+            System.out.println();
+
+        }
     }
 }
 
